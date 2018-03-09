@@ -9,6 +9,10 @@ volatile int MotorRightReverse = 0;
 volatile int MotorLeftForward = 50;
 volatile int MotorLeftReverse = 0;
 
+// M1 == Left
+// M2 == Right
+
+
 void Forward() {
 	PID();
 	analogWrite(M1Forward, MotorLeftForward);
@@ -18,22 +22,28 @@ void Forward() {
 }
 
 void RightTurn() {
-	// analogWrite(M1Forward, 0);
-	// analogWrite(M1Reverse, 0);
-	// analogWrite(M2Forward, 0);
-	// analogWrite(M2Reverse, 0);
-	// delay(2500);
-	while (encoderValueLeft - encoderValueRight == 50)
-	analogWrite(M1Forward, 30);
+	encoderValueLeft = 0;
+	encoderValueRight = 0;
+
+	analogWrite(M1Forward, 50);
 	analogWrite(M1Reverse, 0);
 	analogWrite(M2Forward, 0);
-	analogWrite(M2Reverse, 30);
+	analogWrite(M2Reverse, 50);
+
+	while (1) {
+		delay(1);
+		if (encoderValueRight < -100 && encoderValueLeft > 100) break;
+	}
+
+	analogWrite(M1Forward, 0);
+	analogWrite(M1Reverse, 0);
+	analogWrite(M2Forward, 0);
+	analogWrite(M2Reverse, 0);
 	// delay(250);
 
-	MotorRightForward = 0;
-	MotorRightReverse = 0;
-	MotorLeftForward = 0;
-	MotorLeftReverse = 0;
+	encoderValueLeft = 1;
+	encoderValueRight = 1;
+
 	// delay(2500);
 	// ResetEncoders();
 	MotorRightForward = 50;

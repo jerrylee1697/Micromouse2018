@@ -18,8 +18,6 @@ void PID() {
 	else  if (error < 0) {
 		MotorRightForward -= error;
 	}
-	// encoderValueLeft = 0;
-	// encoderValueRight = 0;
 }
 
 void ResetEncoders() {

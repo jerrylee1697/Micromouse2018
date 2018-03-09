@@ -12,6 +12,7 @@ IntervalTimer sysTickTimer;
 IntervalTimer blinkLEDTimer; // So we know the Teensy is running
 IntervalTimer TurnRight;
 IntervalTimer resetEncoders;
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Start");
@@ -22,7 +23,7 @@ void setup() {
   sysTickTimer.begin(sysTick, 5000);
   blinkLEDTimer.begin(blinkLED, 500000);
 //  TurnRight.begin(RightTurn, 2500000);
-  resetEncoders.begin(ResetEncoders, 10000);
+//  resetEncoders.begin(ResetEncoders, 10000);
 }
 
 void loop() {
@@ -30,13 +31,13 @@ void loop() {
     printSensors();
     printEncoders();
     wait_ms = 0;
-//    if (encoderValueLeft % 1000 == 0) {
-//      RightTurn();
-//      ResetEncoders();
-//    }
-//    else {
+    if (encoderValueLeft % 1000 == 0) {
+      RightTurn();
+      ResetEncoders();
+    }
+    else {
       Forward();
-//    }
+    }
   }
 }
 
