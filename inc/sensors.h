@@ -9,3 +9,5 @@ extern int Receiver_R_Reading;
 
 void readSensors();
 void printSensors();
+void printSensorsAmbient();
+void printSensorsRaw();

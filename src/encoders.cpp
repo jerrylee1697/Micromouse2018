@@ -101,7 +101,7 @@ void countRightEncoderB() {
 
 void printEncoders() {
 	Serial.print(encoderValueLeft);
-	Serial.print(" ");
+	Serial.print(",");
 	Serial.println(encoderValueRight);
 }
 

@@ -1,12 +1,6 @@
 #include "../inc/pid.h"
-
-extern volatile int encoderValueLeft;
-extern volatile int encoderValueRight;
-
-extern volatile int MotorRightForward;
-extern volatile int MotorRightReverse;
-extern volatile int MotorLeftForward;
-extern volatile int MotorLeftReverse;
+#include "../inc/encoders.h"
+#include "../inc/motors.h"
 
 int error = 0;
 
