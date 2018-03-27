@@ -39,3 +39,5 @@ void setLeftPwm(int);
 void setRightPwm(int);
 void updateCurrentSpeed();
 void calculateMotorPwm();
+void moveOneCell();
+double needToDecelerate(int, double, double);

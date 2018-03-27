@@ -7,6 +7,7 @@ extern int leftEncoder;
 extern int rightEncoder;
 
 extern double encoderCount;
+extern int encoderCountW;
 extern int leftEncoderCount;
 extern int rightEncoderCount;
 

@@ -10,6 +10,7 @@ int leftEncoder;
 int rightEncoder;
 
 double encoderCount;
+int encoderCountW;
 int leftEncoderCount;
 int rightEncoderCount;
 
@@ -20,8 +21,6 @@ int rightEncoderChange;
 double oldEncoderCount;
 int leftEncoderOld;
 int rightEncoderOld;
-
-bool turningRight = false;
 
 void countLeftEncoderA() {
 	if (digitalRead(EncoderL_A)) {
@@ -119,12 +118,8 @@ void updateEncoderStatus() {
 	leftEncoderCount += leftEncoderChange;
 	rightEncoderCount += rightEncoderChange;
 	encoderCount =  (double)(leftEncoderCount+rightEncoderCount)/2;
+	encoderCountW = rightEncoderCount - leftEncoderCount;
 
-	distanceLeftX -= encoderChange;// update distanceLeft
-	if (turningRight) {
-		distanceLeftW -= leftEncoderChange - rightEncoderChange;
-	}
-	else {
-		distanceLeftW -= rightEncoderChange - leftEncoderChange;
-	}
+	distanceLeftX -= encoderChange;
+	distanceLeftW -= rightEncoderChange - leftEncoderChange; // distanceLeftW: CW is positive
 }

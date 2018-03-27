@@ -12,105 +12,58 @@ IntervalTimer sysTickTimer;
 IntervalTimer blinkLEDTimer; // So we know the Teensy is running
 
 void setup() {
+  blinkLEDTimer.begin(blinkLED, 500000);
   Serial.begin(9600);
   Serial.println("Start");
-  delay(1);
+  delay(2);
   
   initializePinModes();
   attachInterrupts();
 
   sysTickTimer.begin(sysTick, 5000);
-  blinkLEDTimer.begin(blinkLED, 500000);
 }
 
-double i = 0;
-int flag = 0;
 elapsedMillis wait_ms2;
 
 void loop() {
+  distanceLeftW = 235;//97
+  do {
+     /*you can call int needToDecelerate(int32_t dist, int16_t curSpd, int16_t endSpd)
+    here with current speed and distanceLeft to decide if you should start to decelerate or not.*/
+    if(needToDecelerate(distanceLeftW, encoderFeedbackW, 0) < decW)
+      targetSpeedW = turnSpeed;
+    else
+      targetSpeedW = 0;
+    if (wait_ms2 > 3) {
+      Serial.print(needToDecelerate(distanceLeftW, encoderFeedbackW, 0));
+      Serial.print(',');
+      Serial.println(distanceLeftW);
+      wait_ms2 = 0;
+    }
+    //there is something else you can add here. Such as detecting falling edge of post to correct longitudinal position of mouse when running in a straight path
+  }
+  while( (encoderCountW-oldEncoderCount) < 250);
+//  targetSpeedW = 0;
+  delay(1000);
+  oldEncoderCount = encoderCountW;
+  /*
   if (wait_ms > 2000) {
     wait_ms = 0;
   }
-  if (wait_ms > 1200) {
-    targetSpeedX = 0;
+  else if (wait_ms > 1500) {
+    targetSpeedW = -35;
   }
   else if (wait_ms > 1000) {
-    targetSpeedX = 70;
+    targetSpeedW = 0;
   }
   else if (wait_ms > 500) {
-    targetSpeedX = 0;
+    targetSpeedW = 35;
   }
   else {
-//    targetSpeedX = -60;
+    targetSpeedW = 0;
   }
-
-//  //Figure 8
-//  targetSpeedX = 15;
-//  if (wait_ms > 2400) {
-//    wait_ms = 0;
-//  }
-//  else if (wait_ms > 1900) {
-//    targetSpeedW = 0;
-//  }
-//  else if (wait_ms > 1200) {
-//    targetSpeedW = 12;
-//  }
-//  else if (wait_ms > 700) {
-//    targetSpeedW = 0;
-//  }
-//  else {
-//    targetSpeedW = -12;
-//  }
-//  if(wait_ms > 2750) {
-//    delay(100000);
-//    wait_ms = 0;
-//  }
-//  else if(wait_ms > 2000) {
-//    targetSpeedX = 0;
-//  }
-//  else if(wait_ms > 1000) {
-//    targetSpeedX = 100;
-//  }
+  */
   
-//  if (flag == 0 && wait_ms > 10) {
-//    i += 1;
-//    wait_ms = 0;
-//    if (i > 35) {
-//      flag = 1;
-//    }
-//  }
-//  else if (flag == 1 && wait_ms > 10) {
-//    i -= 1;
-//    wait_ms = 0;
-//    if (i < -35) {
-//      flag = 0;
-//    }
-//  }
-  if (wait_ms2 > 20) {
-    Serial.print(posErrorX);
-    Serial.print(",");
-    Serial.println(posPwmX);
-    wait_ms2 = 0;
-  }
-  
-//  //Figure 8 for loop
-//  targetSpeedX = 15;
-//  for (double i = 0; i < 15; i += 0.2) {
-//    delayMicroseconds(5000);
-//    targetSpeedW = i;
-//  }
-//  for (double i = 15; i > 0; i -= 0.2) {
-//    delayMicroseconds(5000);
-//    targetSpeedW = i;
-//  }
-//  for (double i = 0; i < 15; i += 0.2) {
-//    delayMicroseconds(5000);
-//    targetSpeedW = -i;
-//  }
-//  for (double i = 15; i > 0; i -= 0.2) {
-//    delayMicroseconds(5000);
-//    targetSpeedW = -i;
-//  }
   /*
   if (wait_ms > 1000) {
     printSensorsAmbient();
@@ -128,5 +81,5 @@ void sysTick() {
   readSensors();
   updateEncoderStatus();
   updateCurrentSpeed();
-  calculateMotorPwm();
+  fuckGreensPID();
 }
