@@ -20,6 +20,18 @@ int Receiver_R_Reading_Raw;
 
 int sensorError;
 
+bool frontWall;
+bool leftWall;
+bool rightWall;
+
+int thresholdFront = 40;
+int thresholdSide = 40;
+int thresholdUpperFront = 300; // Threshold for when mouse close to front wall detecting side walls
+
+int targetLeft = 130;
+int targetRight = 130;
+int targetFront = 400;
+
 void readSensors() {
 	// Emitter Duty Cycle = 0.025 for mosfets
 
@@ -58,7 +70,29 @@ void readSensors() {
 	Receiver_FR_Reading = Receiver_FR_Reading_Raw - ambientValueFrontRight;
 	digitalWrite(Emitter_FR, LOW);
 
-	sensorError = Receiver_FR_Reading - Receiver_FL_Reading;
+	detectWalls();
+	getSensorError();
+}
+
+void getSensorError() {
+	if (Receiver_R_Reading < thresholdUpperFront || Receiver_L_Reading < thresholdUpperFront) {
+		if (leftWall == true && rightWall == true) {
+			sensorError = Receiver_FR_Reading - Receiver_FL_Reading;
+		}
+		else if (leftWall == true && rightWall == false) {
+			sensorError = targetLeft - Receiver_FL_Reading;
+		}
+		else if (rightWall == true && leftWall == false) {
+			sensorError = Receiver_FR_Reading - targetRight;
+		}
+		else if (rightWall == false && leftWall == false) {
+			sensorError = 0;
+		}
+	}
+	else {
+		sensorError = Receiver_L_Reading - Receiver_R_Reading;
+		sensorError *= 3;
+	}
 }
 
 void printSensorsRaw() {
@@ -95,4 +129,25 @@ void printSensors() {
 	Serial.print("Right: ");
 	Serial.println(Receiver_R_Reading);
 	Serial.print("\n");
+}
+
+void detectWalls() {
+	if (Receiver_R_Reading > thresholdFront || Receiver_L_Reading > thresholdFront) {
+		frontWall = true;
+	}
+	else {
+		frontWall = false;
+	}
+	if (Receiver_FL_Reading > thresholdSide) {
+		leftWall = true;
+	}
+	else {
+		leftWall = false;
+	}
+	if (Receiver_FR_Reading > thresholdSide) {
+		rightWall = true;
+	}
+	else {
+		rightWall = false;
+	}
 }

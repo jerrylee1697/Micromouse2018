@@ -11,3 +11,4 @@ extern double distanceLeftW;
 
 double needToDecelerate(int, double, double);
 void moveOneCell();
+void Forward();

@@ -53,3 +53,16 @@ void moveOneCell() {
 	oldEncoderCount = encoderCountX; //update here for next movement to minimized the counts loss between cells.
 }
 
+void Forward() {
+	if (Receiver_L_Reading > targetFront || Receiver_R_Reading > targetFront) {
+		if(needToDecelerate(1, curSpeedX, 0) < decX) {
+			// targetSpeedX = moveSpeed;
+		}
+		else {
+			targetSpeedX = 0;
+		}
+	} 
+	else {
+		targetSpeedX = 0;
+	}
+}
