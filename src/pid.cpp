@@ -1,12 +1,26 @@
 #include "../inc/pid.h"
 #include "../inc/pwm.h"
 #include "../inc/encoders.h"
-#include "../inc/motors.h"
 #include <Arduino.h>
 
-int error = 0;
+double accX = 0.37; // Probably no need to change.
+double accW = 0.4;
+double decX = 0.43; // Do not change. Perfect value
+double decW = 0.4;
 
-int outMin = -255;	// Limit the motors only because 
+double sensorFeedback = 0;
+double sensor_scale = 50;
+bool useSensors = false;
+
+double curSpeedX = 0;
+double curSpeedW = 0;
+double targetSpeedX = 0;
+double targetSpeedW = 0;
+
+double encoderFeedbackX = 0;
+double encoderFeedbackW = 0;
+
+int outMin = -255;	// Anti-windup
 int outMax = 255;
 
 double ITermX;
@@ -23,21 +37,6 @@ double kdX = .15; // Very confident in this number
 double kdW = .15;
 
 void PID() {
-	error = encoderValueRight - encoderValueLeft;
-	if (error > 0) {
-		MotorRightForward -= error;
-	}
-	else  if (error < 0) {
-		MotorRightForward -= error;
-	}
-}
-
-void ResetEncoders() {
-	encoderValueRight = 0;
-	encoderValueLeft = 0;
-}
-
-void fuckGreensPID() {
 	int rotationalFeedback;
 
 	encoderFeedbackX = rightEncoderChange + leftEncoderChange;
@@ -85,4 +84,27 @@ void fuckGreensPID() {
 
 	setLeftPwm(leftBaseSpeed);
 	setRightPwm(rightBaseSpeed);
+}
+
+void updateCurrentSpeed() {
+	if(curSpeedX < targetSpeedX) {
+		curSpeedX += accX;
+    	if(curSpeedX > targetSpeedX)
+      	curSpeedX = targetSpeedX;
+	} 
+	else if(curSpeedX > targetSpeedX) {
+		curSpeedX -= decX;
+		if(curSpeedX < targetSpeedX)
+			curSpeedX = targetSpeedX;
+	}
+	if(curSpeedW < targetSpeedW) {
+		curSpeedW += accW;
+		if(curSpeedW > targetSpeedW)
+			curSpeedW = targetSpeedW;
+	}
+	else if(curSpeedW > targetSpeedW) {
+		curSpeedW -= decW;
+		if(curSpeedW < targetSpeedW)
+			curSpeedW = targetSpeedW;
+	}
 }

@@ -1,6 +1,7 @@
 #include "../inc/encoders.h"
 #include "../inc/macros.h"
 #include "../inc/pwm.h"
+#include "../inc/movement.h"
 #include <Arduino.h>
 
 volatile int encoderValueLeft = 0;
@@ -9,7 +10,7 @@ volatile int encoderValueRight = 0;
 int leftEncoder;
 int rightEncoder;
 
-double encoderCount;
+double encoderCountX;
 int encoderCountW;
 int leftEncoderCount;
 int rightEncoderCount;
@@ -117,7 +118,7 @@ void updateEncoderStatus() {
 
 	leftEncoderCount += leftEncoderChange;
 	rightEncoderCount += rightEncoderChange;
-	encoderCount =  (double)(leftEncoderCount+rightEncoderCount)/2;
+	encoderCountX =  (double)(leftEncoderCount+rightEncoderCount)/2;
 	encoderCountW = rightEncoderCount - leftEncoderCount;
 
 	distanceLeftX -= encoderChange;

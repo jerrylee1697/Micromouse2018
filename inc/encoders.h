@@ -6,7 +6,7 @@ extern volatile int encoderValueRight;
 extern int leftEncoder;
 extern int rightEncoder;
 
-extern double encoderCount;
+extern double encoderCountX;
 extern int encoderCountW;
 extern int leftEncoderCount;
 extern int rightEncoderCount;

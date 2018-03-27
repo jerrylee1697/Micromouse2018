@@ -1,17 +1,39 @@
 #pragma once
 #include "../inc/encoders.h"
-#include "../inc/macros.h"
-#include "../inc/motors.h"
 #include <Arduino.h>
 
-extern volatile int encoderValueLeft;
-extern volatile int encoderValueRight;
+extern double accX;
+extern double accW;
+extern double decX;
+extern double decW;
 
-extern volatile int MotorRightForward;
-extern volatile int MotorRightReverse;
-extern volatile int MotorLeftForward;
-extern volatile int MotorLeftReverse;
+extern double sensorFeedback;
+extern double sensor_scale;
+extern bool useSensors;
+
+extern double curSpeedX;
+extern double curSpeedW;
+extern double targetSpeedX;
+extern double targetSpeedW;
+
+extern double encoderFeedbackX;
+extern double encoderFeedbackW;
+
+extern int outMin;
+extern int outMax;
+
+extern double ITermX;
+extern double ITermW;
+
+extern double lastSpeedX;
+extern double lastSpeedW;
+
+extern double kpX; // Slightly confident this number is good
+extern double kpW;
+extern double kiX; // Very confident in this number
+extern double kiW;
+extern double kdX; // Very confident in this number
+extern double kdW;
 
 void PID();
-
-void ResetEncoders();
+void updateCurrentSpeed();
