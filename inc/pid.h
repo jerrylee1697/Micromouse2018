@@ -1,5 +1,6 @@
 #pragma once
 #include "../inc/encoders.h"
+#include "../inc/sensors.h"
 #include <Arduino.h>
 
 extern double accX;

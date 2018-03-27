@@ -4,7 +4,7 @@
 #include <math.h>
 #include <Arduino.h>
 
-int moveSpeed = 25;
+int moveSpeed = 15;
 int turnSpeed = 30;
 int returnSpeed = 10;
 int stopSpeed = 30;

@@ -18,6 +18,8 @@ int Receiver_FL_Reading_Raw;
 int Receiver_FR_Reading_Raw;
 int Receiver_R_Reading_Raw;
 
+int sensorError;
+
 void readSensors() {
 	// Emitter Duty Cycle = 0.025 for mosfets
 
@@ -55,6 +57,8 @@ void readSensors() {
 	Receiver_FR_Reading_Raw = analogRead(Receiver_FR);
 	Receiver_FR_Reading = Receiver_FR_Reading_Raw - ambientValueFrontRight;
 	digitalWrite(Emitter_FR, LOW);
+
+	sensorError = Receiver_FR_Reading - Receiver_FL_Reading;
 }
 
 void printSensorsRaw() {

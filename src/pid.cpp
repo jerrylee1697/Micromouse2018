@@ -1,6 +1,7 @@
 #include "../inc/pid.h"
 #include "../inc/pwm.h"
 #include "../inc/encoders.h"
+#include "../inc/sensors.h"
 #include <Arduino.h>
 
 double accX = 0.37; // Probably no need to change.
@@ -9,8 +10,8 @@ double decX = 0.43; // Do not change. Perfect value
 double decW = 0.4;
 
 double sensorFeedback = 0;
-double sensor_scale = 50;
-bool useSensors = false;
+double sensor_scale = 100;
+bool useSensors = true;
 
 double curSpeedX = 0;
 double curSpeedW = 0;
@@ -30,9 +31,9 @@ double lastSpeedX = 0;
 double lastSpeedW = 0;
 
 double kpX = .5; // Slightly confident this number is good
-double kpW = .5;
+double kpW = 10;
 double kiX = .2; // Very confident in this number
-double kiW = .2;
+double kiW = .1;
 double kdX = .15; // Very confident in this number
 double kdW = .15;
 
@@ -43,12 +44,13 @@ void PID() {
 	encoderFeedbackW = rightEncoderChange - leftEncoderChange;   // Positive if mouse rotates CW
 
 	if (useSensors) {
-		// sensorFeedback = sensorError/sensor_scale;
+		sensorFeedback = sensorError/sensor_scale;
 	}
 	else {
 		sensorFeedback = 0;
 	}
 	rotationalFeedback = encoderFeedbackW - sensorFeedback;
+	// Serial.println(rotationalFeedback);
 
 	double errorX = curSpeedX - encoderFeedbackX;
    ITermX += (kiX * errorX);

@@ -7,6 +7,8 @@ extern int Receiver_FL_Reading;
 extern int Receiver_FR_Reading;
 extern int Receiver_R_Reading;
 
+extern int sensorError;
+
 void readSensors();
 void printSensors();
 void printSensorsAmbient();
