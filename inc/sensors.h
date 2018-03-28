@@ -14,6 +14,7 @@ extern bool leftWall;
 extern bool rightWall;
 
 extern int thresholdFront;
+extern int thresholdFront2;
 extern int thresholdSide;
 extern int thresholdUpperFront; // Threshold for when mouse close to front wall detecting side walls
 

@@ -9,6 +9,10 @@ extern int maxSpeed;
 extern double distanceLeftX;
 extern double distanceLeftW;
 
+extern int oneCellDistance;
+extern int oneTurnDistance;
+
 double needToDecelerate(int, double, double);
 void moveOneCell();
 void Forward();
+void turnLeft();

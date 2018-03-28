@@ -25,8 +25,18 @@ void setup() {
 
 elapsedMillis wait_ms2;
 
+int count = 1;
 void loop() {
-  Forward();
+//  Forward();
+  while (count > 0) {
+    moveOneCell();
+    targetSpeedX = 0;
+    turnLeft();
+    count= count -1;
+    targetSpeedW = 0;
+    Serial.println("STOP");
+    
+  }
 }
 
 void sysTick() {

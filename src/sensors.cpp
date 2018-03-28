@@ -24,8 +24,9 @@ bool frontWall;
 bool leftWall;
 bool rightWall;
 
-int thresholdFront = 40;
-int thresholdSide = 40;
+int thresholdFront = 290;	// 60 - Threshold for Wall in front from Cell Boundary
+int thresholdFront2 = 260;	// 30 - Threshold for Wall in front from Half Cell further than boundary
+int thresholdSide = 40;		// Threshold for Wall on side
 int thresholdUpperFront = 300; // Threshold for when mouse close to front wall detecting side walls
 
 int targetLeft = 130;
@@ -72,6 +73,7 @@ void readSensors() {
 
 	detectWalls();
 	getSensorError();
+	printSensors();
 }
 
 void getSensorError() {
@@ -138,12 +140,14 @@ void detectWalls() {
 	else {
 		frontWall = false;
 	}
+
 	if (Receiver_FL_Reading > thresholdSide) {
 		leftWall = true;
 	}
 	else {
 		leftWall = false;
 	}
+	
 	if (Receiver_FR_Reading > thresholdSide) {
 		rightWall = true;
 	}
