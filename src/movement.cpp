@@ -63,7 +63,6 @@ void moveOneCell() {
 
 void turnLeft() {
 	targetSpeedX = 0;
-	// distanceLeftX = 300;
 	useSensors = false;		// Turn of sensors for turn
 	elapsedMillis wait;
 	do {
@@ -74,7 +73,7 @@ void turnLeft() {
 		else
 			targetSpeedW = moveSpeed;
 		if (wait < 1000) {
-			Serial.println(needToDecelerate(distanceLeftX, curSpeedX, moveSpeed));
+			Serial.println(needToDecelerate(distanceLeftW, curSpeedW, moveSpeed));
 			Serial.println(encoderCountX-oldEncoderCount);
 			Serial.println("In Loop");
 			turnFeedBack = distanceLeftW;
@@ -90,26 +89,25 @@ void turnLeft() {
 
 void turnRight() {
 	targetSpeedX = 0;
-	// distanceLeftX = 300;
 	useSensors = false;		// Turn of sensors for turn
 	elapsedMillis wait;
 	do {
 		/*you can call int needToDecelerate(int32_t dist, int16_t curSpd, int16_t endSpd)
 		here with current speed and distanceLeft to decide if you should start to decelerate or not.*/
-		if(needToDecelerate(distanceLeftW, curSpeedW, moveSpeed) < decX)
+		if(needToDecelerate(-1 * distanceLeftW, -1 * curSpeedW, moveSpeed) < decX)
 			targetSpeedW = -1 * maxSpeed;
 		else
 			targetSpeedW = -1 * moveSpeed;
 		if (wait < 1000) {
-			Serial.println(needToDecelerate(distanceLeftW, curSpeedW, moveSpeed));
+			Serial.println(needToDecelerate(-1 * distanceLeftW, -1 * curSpeedW, moveSpeed));
 			Serial.println(encoderCountX-oldEncoderCount);
 			Serial.println("In Loop");
-			turnFeedBack = distanceLeftW;
+			turnFeedBack = -1 * distanceLeftW;
 			wait = 0;
 		}
 		//there is something else you can add here. Such as detecting falling edge of post to correct longitudinal position of mouse when running in a straight path
 	}
-	while( (encoderCountW-oldEncoderCount) < oneTurnDistance);
+	while( ((-1 * encoderCountW)-oldEncoderCount) < oneTurnDistance);
 
 	useSensors = true;		// Turn sensors on again
 	oldEncoderCount = encoderCountW; //update here for next movement to minimized the counts loss between cells.
