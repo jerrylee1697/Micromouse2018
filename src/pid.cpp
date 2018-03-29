@@ -10,7 +10,9 @@ double decX = 0.43; // Do not change. Perfect value
 double decW = 0.4;
 
 double sensorFeedback = 0;
+double turnFeedback = 0;
 double sensor_scale = 100;
+double turn_scale = 1;
 bool useSensors = true;
 
 double curSpeedX = 0;
@@ -49,7 +51,8 @@ void PID() {
 	else {
 		sensorFeedback = 0;
 	}
-	rotationalFeedback = encoderFeedbackW - sensorFeedback;
+	turnFeedback = turnFeedback / turn_scale;
+	rotationalFeedback = encoderFeedbackW - sensorFeedback - turnFeedback;
 	// Serial.println(rotationalFeedback);
 
 	double errorX = curSpeedX - encoderFeedbackX;

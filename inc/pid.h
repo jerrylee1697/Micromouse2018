@@ -9,7 +9,9 @@ extern double decX;
 extern double decW;
 
 extern double sensorFeedback;
+extern double turnFeedback;
 extern double sensor_scale;
+extern double turn_scale;
 extern bool useSensors;
 
 extern double curSpeedX;
