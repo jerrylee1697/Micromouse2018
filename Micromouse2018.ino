@@ -29,8 +29,8 @@ int count = 1;
 void loop() {
 //  Forward();
   while (count > 0) {
-    moveOneCell();
-    targetSpeedX = 0;
+//    moveOneCell();
+//    targetSpeedX = 0;
     turnLeft();
     count= count -1;
     targetSpeedW = 0;
