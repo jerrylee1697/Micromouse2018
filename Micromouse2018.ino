@@ -15,28 +15,22 @@ void setup() {
   blinkLEDTimer.begin(blinkLED, 500000);
   Serial.begin(9600);
   Serial.println("Start");
-  delay(2);
+  delay(1000);
   
   initializePinModes();
   attachInterrupts();
 
   sysTickTimer.begin(sysTick, 5000);
+//  targetLeft = Receiver_FL_Reading;
+//  targetRight = Receiver_FR_Reading;
 }
 
 elapsedMillis wait_ms2;
 
-int count = 1;
+//int count = 2;
 void loop() {
-//  Forward();
-  while (count > 0) {
-//    moveOneCell();
-//    targetSpeedX = 0;
-    turnLeft();
-    count= count -1;
-    targetSpeedW = 0;
-    Serial.println("STOP");
-    
-  }
+  moveOneCell();
+  turnLeft();
 }
 
 void sysTick() {

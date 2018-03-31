@@ -4,14 +4,14 @@
 #include "../inc/sensors.h"
 #include <Arduino.h>
 
-double accX = 0.37; // Probably no need to change.
+double accX = 0.3;  // Probably no need to change.
 double accW = 0.4;
 double decX = 0.43; // Do not change. Perfect value
 double decW = 0.4;
 
 double sensorFeedback = 0;
 double turnFeedback = 0;
-double sensor_scale = 100;
+double sensor_scale = 50;
 double turn_scale = 1;
 bool useSensors = true;
 

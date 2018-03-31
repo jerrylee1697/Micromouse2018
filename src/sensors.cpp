@@ -24,14 +24,14 @@ bool frontWall;
 bool leftWall;
 bool rightWall;
 
-int thresholdFront = 290;	// 60 - Threshold for Wall in front from Cell Boundary
-int thresholdFront2 = 260;	// 30 - Threshold for Wall in front from Half Cell further than boundary
-int thresholdSide = 40;		// Threshold for Wall on side
+int thresholdFront = 50;
+int thresholdSide = 100;		// Threshold for Wall on side
 int thresholdUpperFront = 300; // Threshold for when mouse close to front wall detecting side walls
 
-int targetLeft = 130;
-int targetRight = 130;
-int targetFront = 400;
+int targetLeft = 140;
+int targetRight = 190;
+int targetFront = 290;	// 60 - Threshold for Wall in front from Cell Boundary
+int targetFront2 = 260;	// 30 - Threshold for Wall in front from Half Cell further than boundary
 
 void readSensors() {
 	// Emitter Duty Cycle = 0.025 for mosfets
@@ -77,23 +77,45 @@ void readSensors() {
 }
 
 void getSensorError() {
-	if (Receiver_R_Reading < thresholdUpperFront || Receiver_L_Reading < thresholdUpperFront) {
-		if (leftWall == true && rightWall == true) {
-			sensorError = Receiver_FR_Reading - Receiver_FL_Reading;
-		}
-		else if (leftWall == true && rightWall == false) {
-			sensorError = targetLeft - Receiver_FL_Reading;
-		}
-		else if (rightWall == true && leftWall == false) {
-			sensorError = Receiver_FR_Reading - targetRight;
-		}
-		else if (rightWall == false && leftWall == false) {
-			sensorError = 0;
-		}
+
+	// if (Receiver_R_Reading < thresholdUpperFront || Receiver_L_Reading < thresholdUpperFront) {
+	// 	if (leftWall == true && rightWall == true) {
+	// 		sensorError = Receiver_FR_Reading - Receiver_FL_Reading;
+	// 	}
+	// 	else if (leftWall == true && rightWall == false) {
+	// 		sensorError = targetLeft - Receiver_FL_Reading;
+	// 	}
+	// 	else if (rightWall == true && leftWall == false) {
+	// 		sensorError = Receiver_FR_Reading - targetRight;
+	// 	}
+	// 	else if (rightWall == false && leftWall == false) {
+	// 		sensorError = 0;
+	// 	}
+	// }
+	// else {
+	// 	sensorError = Receiver_L_Reading - Receiver_R_Reading;
+	// 	sensorError *= 3;
+	// }
+
+	if (leftWall == true && rightWall == true) {
+		sensorError = Receiver_FR_Reading - Receiver_FL_Reading - 60;
 	}
-	else {
-		sensorError = Receiver_L_Reading - Receiver_R_Reading;
-		sensorError *= 3;
+	else if (leftWall == true && rightWall == false) {
+		sensorError = targetLeft - Receiver_FL_Reading;
+	}
+	else if (rightWall == true && leftWall == false) {
+		sensorError = Receiver_FR_Reading - targetRight;
+	}
+	else if (rightWall == false && leftWall == false) {
+		sensorError = 0;
+	}
+
+	if (frontWall) {
+		sensorError += (Receiver_L_Reading - Receiver_R_Reading) * 3;
+	}
+
+	if (Receiver_R_Reading > thresholdUpperFront || Receiver_L_Reading > thresholdUpperFront) {
+		sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
 	}
 }
 

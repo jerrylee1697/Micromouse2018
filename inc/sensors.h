@@ -14,13 +14,14 @@ extern bool leftWall;
 extern bool rightWall;
 
 extern int thresholdFront;
-extern int thresholdFront2;
+// extern int thresholdFront2;
 extern int thresholdSide;
 extern int thresholdUpperFront; // Threshold for when mouse close to front wall detecting side walls
 
 extern int targetLeft;
 extern int targetRight;
 extern int targetFront;
+extern int targetFront2;
 
 void readSensors();
 void getSensorError();

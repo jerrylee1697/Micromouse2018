@@ -16,3 +16,4 @@ double needToDecelerate(int, double, double);
 void moveOneCell();
 void Forward();
 void turnLeft();
+void turnRight();
