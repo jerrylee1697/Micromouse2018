@@ -11,7 +11,7 @@ double decW = 0.4;
 
 double sensorFeedback = 0;
 double turnFeedback = 0;
-double sensor_scale = 50;
+double sensor_scale = 6;
 double turn_scale = 1;
 bool useSensors = true;
 
@@ -32,9 +32,9 @@ double ITermW;
 double lastSpeedX = 0;
 double lastSpeedW = 0;
 
-double kpX = .5; // Slightly confident this number is good
+double kpX = 3;//.5; // Slightly confident this number is good
 double kpW = 10;
-double kiX = .2; // Very confident in this number
+double kiX = .1;//.2; // Very confident in this number
 double kiW = .1;
 double kdX = .15; // Very confident in this number
 double kdW = .15;
@@ -44,6 +44,11 @@ void PID() {
 
 	encoderFeedbackX = rightEncoderChange + leftEncoderChange;
 	encoderFeedbackW = rightEncoderChange - leftEncoderChange;   // Positive if mouse rotates CW
+
+	Serial.print(leftEncoderChange);
+	Serial.print(",");
+	Serial.print(rightEncoderChange);
+	Serial.println();
 
 	if (useSensors) {
 		sensorFeedback = sensorError/sensor_scale;
@@ -112,4 +117,19 @@ void updateCurrentSpeed() {
 		if(curSpeedW < targetSpeedW)
 			curSpeedW = targetSpeedW;
 	}
+	// if (targetSpeedX == 0) {
+	// 	curSpeedX = 0;
+	// }
+	// if (targetSpeedW == 0) {
+	// 	curSpeedW = 0;
+	// }
+}
+
+void resetPID() {
+	ITermX = 0;
+	ITermW = 0;
+	lastSpeedX = 0;
+	lastSpeedW = 0;
+	curSpeedX = 0;
+	curSpeedW = 0;
 }

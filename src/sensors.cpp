@@ -28,8 +28,8 @@ int thresholdFront = 50;
 int thresholdSide = 100;		// Threshold for Wall on side
 int thresholdUpperFront = 300; // Threshold for when mouse close to front wall detecting side walls
 
-int targetLeft = 140;
-int targetRight = 190;
+int targetLeft = 0;//140;
+int targetRight = 0;//190;
 int targetFront = 290;	// 60 - Threshold for Wall in front from Cell Boundary
 int targetFront2 = 260;	// 30 - Threshold for Wall in front from Half Cell further than boundary
 
@@ -73,7 +73,7 @@ void readSensors() {
 
 	detectWalls();
 	getSensorError();
-	printSensors();
+	// printSensors();
 }
 
 void getSensorError() {
@@ -97,26 +97,31 @@ void getSensorError() {
 	// 	sensorError *= 3;
 	// }
 
-	if (leftWall == true && rightWall == true) {
-		sensorError = Receiver_FR_Reading - Receiver_FL_Reading - 60;
+	if (Receiver_R_Reading < thresholdUpperFront || Receiver_L_Reading < thresholdUpperFront) {
+		if (leftWall == true && rightWall == true) {
+			sensorError = Receiver_FR_Reading - Receiver_FL_Reading - (targetRight - targetLeft);
+		}
+		else if (leftWall == true && rightWall == false) {
+			sensorError = targetLeft - Receiver_FL_Reading;
+		}
+		else if (rightWall == true && leftWall == false) {
+			sensorError = Receiver_FR_Reading - targetRight;
+		}
+		else if (rightWall == false && leftWall == false) {
+			sensorError = 0;
+		}
 	}
-	else if (leftWall == true && rightWall == false) {
-		sensorError = targetLeft - Receiver_FL_Reading;
-	}
-	else if (rightWall == true && leftWall == false) {
-		sensorError = Receiver_FR_Reading - targetRight;
-	}
-	else if (rightWall == false && leftWall == false) {
+	else {
 		sensorError = 0;
 	}
 
-	if (frontWall) {
-		sensorError += (Receiver_L_Reading - Receiver_R_Reading) * 3;
-	}
+	// if (frontWall) {
+	// 	sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
+	// }
 
-	if (Receiver_R_Reading > thresholdUpperFront || Receiver_L_Reading > thresholdUpperFront) {
-		sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
-	}
+	// if (Receiver_R_Reading > thresholdUpperFront || Receiver_L_Reading > thresholdUpperFront) {
+	// 	sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
+	// }
 }
 
 void printSensorsRaw() {

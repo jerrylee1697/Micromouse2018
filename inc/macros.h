@@ -23,3 +23,6 @@
 #define EncoderR_B 7
 
 #define TeensyLED 13
+
+#define BluetoothRX 0
+#define BluetoothTX 1

@@ -40,3 +40,4 @@ extern double kdW;
 
 void PID();
 void updateCurrentSpeed();
+void resetPID();
