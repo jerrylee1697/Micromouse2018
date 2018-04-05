@@ -1,6 +1,7 @@
 #include "../inc/movement.h"
 #include "../inc/encoders.h"
 #include "../inc/pid.h"
+#include "../inc/state.h"
 #include <math.h>
 #include <Arduino.h>
 
@@ -13,8 +14,9 @@ int maxSpeed = 67; //62 with pretty low battery
 double distanceLeftX;
 double distanceLeftW;
 
-int oneCellDistance = 520;
-int oneTurnDistance = 340;
+int oneCellDistance = 620;
+int leftTurnDistance = 352;
+int rightTurnDistance = 368;
 
 double needToDecelerate(int dist, double curSpd, double endSpd) { //speed are in encoder counts/ms, dist is in encoder counts 
 	if (curSpd<0) curSpd = -curSpd;
@@ -40,12 +42,15 @@ void moveOneCell() {
 			targetSpeedX = moveSpeed;
 		else
 			targetSpeedX = 0;
-		if (wait > 5) {
+		// if (wait > 5) {
 			// Serial.println(needToDecelerate(distanceLeftX, curSpeedX, moveSpeed));
 			// Serial.println(encoderCountX-oldEncoderCount);
 			// Serial.println("In Loop");
-			wait = 0;
-		}
+			// wait = 0;
+		// }
+		if (distanceLeftX < 450 && distanceLeftX > 390)
+			updateState();
+
 		//there is something else you can add here. Such as detecting falling edge of post to correct longitudinal position of mouse when running in a straight path
 		delay(1);
 	}
@@ -61,7 +66,7 @@ void moveOneCell() {
 	// Serial.println(frontWall);
 
 	if (frontWall) {
-		while (Receiver_L_Reading < 350) {
+		while (Receiver_L_Reading < 350 && Receiver_R_Reading < 350) {
 			targetSpeedX = 5;
 			delay(1);
 		}
@@ -70,13 +75,13 @@ void moveOneCell() {
 
 	delay(500);
 	oldEncoderCount = encoderCountX; //update here for next movement to minimized the counts loss between cells.
+	resetPID();
 }
 
 void turnLeft() {
 	targetSpeedX = 0;
 	useSensors = false;
-	elapsedMillis wait;
-	distanceLeftW = oneTurnDistance;
+	distanceLeftW = leftTurnDistance;
 	while (distanceLeftW > 0) {
 		targetSpeedW = turnSpeed;
 		delay(5);
@@ -86,18 +91,6 @@ void turnLeft() {
 	targetSpeedW = 0;
 	delay(500);
 	useSensors = true;
-	wait = 0;
-	// if (frontWall) {
-	// 	while (wait < 500) {
-	// 		if (Receiver_L_Reading < 350 && Receiver_R_Reading < 350)
-	// 			targetSpeedX = 5;
-	// 		if (Receiver_L_Reading > 350 && Receiver_R_Reading > 350)
-	// 			targetSpeedX = -5;
-	// 		delay(1);
-	// 	}
-	// 	targetSpeedX = 0;
-	// }
-	// delay(500);
 	resetPID();
 }
 
@@ -105,17 +98,31 @@ void turnLeft() {
 void turnRight() {
 	targetSpeedX = 0;
 	useSensors = false;
-	elapsedMillis wait;
-	distanceLeftW = -oneTurnDistance;
+	// elapsedMillis wait;
+	distanceLeftW = -rightTurnDistance;
 	while (distanceLeftW < 0) {
 		targetSpeedW = -turnSpeed;
 		delay(5);
 		// Serial.println(targetSpeedW);
 	}
-	turnFeedback = 0;
 	targetSpeedW = 0;
 	delay(500);
 	useSensors = true;
+	// wait = 0;
+	resetPID();
+}
+
+void turnAround() {
+	turnLeft();
+	// while (wait < 500) {
+	// 		if (Receiver_L_Reading < 350 && Receiver_R_Reading < 350)
+	// 			targetSpeedX = 5;
+	// 		if (Receiver_L_Reading > 350 && Receiver_R_Reading > 350)
+	// 			targetSpeedX = -5;
+	// 		delay(1);
+	// }
+	// targetSpeedX = 0;
+	turnLeft();
 }
 
 void Forward() {

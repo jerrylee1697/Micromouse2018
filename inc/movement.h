@@ -17,3 +17,4 @@ void moveOneCell();
 void Forward();
 void turnLeft();
 void turnRight();
+void turnAround();

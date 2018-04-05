@@ -1,6 +1,7 @@
 #include "../inc/sensors.h"
 #include "../inc/macros.h"
 #include "../inc/delay.h"
+#include "../inc/state.h"
 #include <Arduino.h>
 
 int ambientValueLeft;
@@ -110,18 +111,23 @@ void getSensorError() {
 		else if (rightWall == false && leftWall == false) {
 			sensorError = 0;
 		}
-	}
-	else {
-		sensorError = 0;
-	}
+		}
+		else {
+			sensorError = 0;
+		}
+
+		// if (nextCellState == FRONT) {
+		// 	if (frontWall)
+		// 		sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 2;
+		// }
 
 	// if (frontWall) {
 	// 	sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
 	// }
 
-	// if (Receiver_R_Reading > thresholdUpperFront || Receiver_L_Reading > thresholdUpperFront) {
-	// 	sensorError = (Receiver_L_Reading - Receiver_R_Reading) * 3;
-	// }
+	if (Receiver_R_Reading > thresholdUpperFront || Receiver_L_Reading > thresholdUpperFront) {
+		sensorError = (Receiver_L_Reading - Receiver_R_Reading) ;
+	}
 }
 
 void printSensorsRaw() {

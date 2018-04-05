@@ -11,7 +11,7 @@ double decW = 0.4;
 
 double sensorFeedback = 0;
 double turnFeedback = 0;
-double sensor_scale = 6;
+double sensor_scale = 17;
 double turn_scale = 1;
 bool useSensors = true;
 
@@ -32,12 +32,12 @@ double ITermW;
 double lastSpeedX = 0;
 double lastSpeedW = 0;
 
-double kpX = 3;//.5; // Slightly confident this number is good
-double kpW = 10;
-double kiX = .1;//.2; // Very confident in this number
+double kpX = 5;//.5;
+double kpW = 8;
+double kiX = .1;//.2;
 double kiW = .1;
-double kdX = .15; // Very confident in this number
-double kdW = .15;
+double kdX = .15;
+double kdW = 1;
 
 void PID() {
 	int rotationalFeedback;
@@ -132,4 +132,6 @@ void resetPID() {
 	lastSpeedW = 0;
 	curSpeedX = 0;
 	curSpeedW = 0;
+	encoderCountX = 0;
+	encoderCountW = 0;
 }
