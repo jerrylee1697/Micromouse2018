@@ -11,7 +11,7 @@ double decW = 0.4;
 
 double sensorFeedback = 0;
 double turnFeedback = 0;
-double sensor_scale = 17;
+double sensor_scale = 20;
 double turn_scale = 1;
 bool useSensors = true;
 
@@ -45,10 +45,10 @@ void PID() {
 	encoderFeedbackX = rightEncoderChange + leftEncoderChange;
 	encoderFeedbackW = rightEncoderChange - leftEncoderChange;   // Positive if mouse rotates CW
 
-	Serial.print(leftEncoderChange);
-	Serial.print(",");
-	Serial.print(rightEncoderChange);
-	Serial.println();
+	// Serial.print(leftEncoderChange);
+	// Serial.print(",");
+	// Serial.print(rightEncoderChange);
+	// Serial.println();
 
 	if (useSensors) {
 		sensorFeedback = sensorError/sensor_scale;
