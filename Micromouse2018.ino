@@ -8,18 +8,16 @@
 #include "inc/pwm.h"
 #include "inc/movement.h"
 #include "inc/state.h"
-#include <SoftwareSerial.h>
+#include "inc/floodfill.h"
 
 IntervalTimer sysTickTimer;
 IntervalTimer blinkLEDTimer; // So we know the Teensy is running
 
-SoftwareSerial mySerial(BluetoothRX, BluetoothTX);
-
 void setup() {
   randomSeed(0);
   blinkLEDTimer.begin(blinkLED, 500000);
-  Serial.begin(9600);
-  Serial.println("Start");
+  Serial1.begin(9600);
+  Serial1.println("Start");
 
 //  pinMode(BluetoothRX, INPUT);
 //  pinMode(BluetoothTX, OUTPUT);
@@ -35,8 +33,6 @@ void setup() {
   readSensors();
   targetLeft = Receiver_FL_Reading;
   targetRight = Receiver_FR_Reading;
-  Serial.println(targetLeft);
-  Serial.println(targetRight);
   useSensors = true;
 }
 
@@ -44,6 +40,8 @@ elapsedMillis wait_ms2;
 
 //int count = 1;
 void loop() {
+//  Serial1.println("hello!\n");
+//  delay(1000);
   navigate();
 //  if (wait_ms > 3000) {
 //    wait_ms = 0;
