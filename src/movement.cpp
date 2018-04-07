@@ -48,7 +48,7 @@ void moveOneCell() {
 			// Serial.println("In Loop");
 			// wait = 0;
 		// }
-		if (distanceLeftX < 450 && distanceLeftX > 390)
+		if (distanceLeftX < 200 && distanceLeftX > 150)
 			updateState();
 
 		//there is something else you can add here. Such as detecting falling edge of post to correct longitudinal position of mouse when running in a straight path
@@ -63,17 +63,17 @@ void moveOneCell() {
 	//LFvalues2 and RFvalues2 are the front wall sensor threshold when the center of the mouse staying half cell farther than LFvalues1 and 2
 	//and LF/RFvalues2 are usually the threshold to determine if there is a front wall or not. You should probably move this 10mm closer to front wall when collecting
 	//these thresholds just in case the readings are too weak.
-	// Serial.println(frontWall);
 
 	if (frontWall) {
-		while (Receiver_L_Reading < 350 && Receiver_R_Reading < 350) {
+		while (Receiver_L_Reading < 360 && Receiver_R_Reading < 360) {
 			targetSpeedX = 5;
 			delay(1);
 		}
 		targetSpeedX = 0;
 	}
-
-	delay(500);
+	useSensors = false;
+	delay(100);
+	useSensors = true;
 	oldEncoderCount = encoderCountX; //update here for next movement to minimized the counts loss between cells.
 	resetPID();
 }
@@ -89,7 +89,7 @@ void turnLeft() {
 	}
 	turnFeedback = 0;
 	targetSpeedW = 0;
-	delay(500);
+	delay(200);
 	useSensors = true;
 	resetPID();
 }
@@ -98,17 +98,14 @@ void turnLeft() {
 void turnRight() {
 	targetSpeedX = 0;
 	useSensors = false;
-	// elapsedMillis wait;
 	distanceLeftW = -rightTurnDistance;
 	while (distanceLeftW < 0) {
 		targetSpeedW = -turnSpeed;
 		delay(5);
-		// Serial.println(targetSpeedW);
 	}
 	targetSpeedW = 0;
-	delay(500);
+	delay(200);
 	useSensors = true;
-	// wait = 0;
 	resetPID();
 }
 

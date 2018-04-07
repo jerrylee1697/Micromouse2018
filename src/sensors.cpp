@@ -26,8 +26,8 @@ bool leftWall;
 bool rightWall;
 
 int thresholdFront = 50;
-int thresholdSide = 100;		// Threshold for Wall on side
-int thresholdUpperFront = 300; // Threshold for when mouse close to front wall detecting side walls
+int thresholdSide = 50;		// Threshold for Wall on side
+int thresholdUpperFront = 150; // Threshold for when mouse close to front wall detecting side walls
 
 int targetLeft = 0;//140;
 int targetRight = 0;//190;
