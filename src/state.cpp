@@ -124,5 +124,43 @@ void solveRightHand() {
 }
 
 void floodfill() {
+	// i = 0 1 2 3
+	// Up, Left, Right, Down
+
+	// Maze orientation
+	//--------------
+	//(0,0)		(0,15)
+	//
+	//(15,0)	(15,15)
+	//--------------
+
+
+	struct vertex c;
 	
+	init_adjacency();
+	assign_dist();
+
+	//    Format: (x, y)
+	pair(int, int) start (0, 0);
+	pair(int, int) goal (7, 7);
+	pair(int, int) current(0, 0);
+	pair cellCheck;
+
+	stack <pair<int,int> > stack;
+
+	stack.push(start);
+	while (start != goal) {
+		while (!stack.empty()) {
+			cellCheck = stack.pop();
+			if ()
+		}
+
+	}
+
+
+
+
+
+
+	return 0;
 }
