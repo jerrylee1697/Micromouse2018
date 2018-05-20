@@ -3,7 +3,6 @@
 #include "../inc/movement.h"
 #include "../inc/floodfill.h"
 #include <Arduino.h>
-#include <cmath>
 
 
 int nextCellState = LEFT + RIGHT;
@@ -208,7 +207,7 @@ void floodfill() {
 			}
 		}
 		else if (change_x == 1) {
-			while (orientation 1= 1) {
+			while (orientation != 1) {
 				turnLeft();
 			}
 		}
