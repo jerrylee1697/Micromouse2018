@@ -1,34 +1,27 @@
 //for this version DON'T use the test maze. The wall values are hard coded 
 //using maze_wallinput so just run the whole thing.
 
-#include <iostream>
+// #include <iostream>
 #include <cmath>
-#include<fstream>
+// #include<fstream>
+#include "../inc/floodfill.h"
 //using namespace std;
 
-struct vertex {
-  int x,y;
-};
 
-struct graph {
-  int dist;
-  struct vertex v[4];
-  struct vertex prev;
-};
 
 struct graph m[16][16];
 
-void print_maze() {
-    int i,j;
+// void print_maze() {
+//     int i,j;
          
-    for(i=0;i<16;i++) {
-       for(j=0;j<16;j++) {
-          //printf("%3d",m[j][i].dist); 
-          printf("(%d,%d)",m[j][i].v[0].x,m[j][i].v[0].y);                        
-       }
-     printf("\n\n");
-     }
-}
+//     for(i=0;i<16;i++) {
+//        for(j=0;j<16;j++) {
+//           //printf("%3d",m[j][i].dist); 
+//           printf("(%d,%d)",m[j][i].v[0].x,m[j][i].v[0].y);                        
+//        }
+//      printf("\n\n");
+//      }
+// }
 
 void init_adjacency() {
   int i,j;
@@ -113,6 +106,7 @@ struct vertex maze_update(int x,int y,int z) {
 return m[x][y].v[i];   
 }    
 
+/*
 int main() {
   struct vertex c;
 
@@ -134,4 +128,4 @@ int main() {
     printf("\n(%d,%d)\n",c.x,c.y);
     }
   return 0;
-}
+} */

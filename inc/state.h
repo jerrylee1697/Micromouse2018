@@ -5,7 +5,7 @@
 #define LEFT 4
 
 extern int nextCellState;
-
+extern int orientation;
 void updateState();
 void navigate();
 void solveRightHand();

@@ -91,6 +91,7 @@ void turnLeft() {
 	targetSpeedW = 0;
 	delay(200);
 	useSensors = true;
+	orientation -= 1;
 	resetPID();
 }
 
@@ -106,6 +107,7 @@ void turnRight() {
 	targetSpeedW = 0;
 	delay(200);
 	useSensors = true;
+	orientation += 1;
 	resetPID();
 }
 

@@ -1,10 +1,14 @@
 #include "../inc/state.h"
 #include "../inc/sensors.h"
 #include "../inc/movement.h"
+#include "../inc/floodfill.h"
 #include <Arduino.h>
+#include <cmath>
+
 
 int nextCellState = LEFT + RIGHT;
 int stateCount = 0;
+int orientation = 1; // Default Orientation : Front facing Right Side
 
 void updateState() {
   nextCellState = 0;
@@ -141,26 +145,79 @@ void floodfill() {
 	assign_dist();
 
 	//    Format: (x, y)
-	pair(int, int) start (0, 0);
-	pair(int, int) goal (7, 7);
-	pair(int, int) current(0, 0);
-	pair cellCheck;
-
-	stack <pair<int,int> > stack;
-
-	stack.push(start);
-	while (start != goal) {
-		while (!stack.empty()) {
-			cellCheck = stack.pop();
-			if ()
+	// pair<int, int> start (0, 0);
+	// pair(int, int) goal (7, 7);
+	// pair(int, int) current(0, 0);
+	int start_x = 0;
+	int start_y = 0;
+	int goal_x = 7;
+	int goal_y = 7;
+	int current_x = start_x;
+	int current_y = start_y;
+	
+	while (current_x != goal_x && current_y != goal_y) {
+		if ((orientation % 4) < 0) {
+			orientation = (orientation % 4) + 4;
+		}
+		switch(nextCellState) {
+			case FRONT:
+				maze_wallinput(current_x, current_y, orientation + 0);
+				break;
+			case LEFT:
+				maze_wallinput(current_x, current_y, orientation + 1);
+				break;
+			case RIGHT:
+				maze_wallinput(current_x, current_y, orientation + 2);
+				break;
+			case FRONT + RIGHT:
+				maze_wallinput(current_x, current_y, orientation + 0);
+				maze_wallinput(current_x, current_y, orientation + 2);
+				break;
+			case FRONT + LEFT:
+				maze_wallinput(current_x, current_y, orientation + 0);
+				maze_wallinput(current_x, current_y, orientation + 1);
+				break;
+			case RIGHT + LEFT:
+				maze_wallinput(current_x, current_y, orientation + 1);
+				maze_wallinput(current_x, current_y, orientation + 2);
+				break;
+			case FRONT + RIGHT + LEFT:
+				maze_wallinput(current_x, current_y, orientation + 0);
+				maze_wallinput(current_x, current_y, orientation + 1);
+				maze_wallinput(current_x, current_y, (orientation + 2) % 4);
+				break;
+			default:
+				Serial.println("Error: Default");
+				break;
 		}
 
+		// maze_update returns vertex c
+		// Vertex c = next cell to traverse to
+		c = maze_update(current_x, current_y, 0);
+
+		int change_x = current_x - c.x;
+		int change_y = current_y - c.y;
+
+		// Check orientation to make mouse point in correct direction
+		if (change_x == -1) {
+			while (orientation != 3) {
+				turnRight();
+			}
+		}
+		else if (change_x == 1) {
+
+		}
+		else if (change_y == -1) {
+
+		}
+		else if (change_y == 1) {
+
+		}
+
+
+		current_x = c.x;
+		current_y = c.y;
 	}
 
-
-
-
-
-
-	return 0;
+	return;
 }
