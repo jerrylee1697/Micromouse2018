@@ -9,6 +9,7 @@ extern int orientation;
 void updateState();
 void navigate();
 void solveRightHand();
+void floodfill();
 
 /*
   *********************************************************

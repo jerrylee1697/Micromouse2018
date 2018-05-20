@@ -8,6 +8,7 @@
 #include "inc/pwm.h"
 #include "inc/movement.h"
 #include "inc/state.h"
+#include "inc/floodfill.h"
 
 IntervalTimer sysTickTimer;
 IntervalTimer blinkLEDTimer; // So we know the Teensy is running
