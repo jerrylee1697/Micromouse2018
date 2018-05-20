@@ -159,6 +159,9 @@ void floodfill() {
 		if ((orientation % 4) < 0) {
 			orientation = (orientation % 4) + 4;
 		}
+		else {
+			orientation = orientation % 4;
+		}
 		switch(nextCellState) {
 			case FRONT:
 				maze_wallinput(current_x, current_y, orientation + 0);
@@ -201,19 +204,25 @@ void floodfill() {
 		// Check orientation to make mouse point in correct direction
 		if (change_x == -1) {
 			while (orientation != 3) {
-				turnRight();
+				turnLeft();
 			}
 		}
 		else if (change_x == 1) {
-
+			while (orientation 1= 1) {
+				turnLeft();
+			}
 		}
 		else if (change_y == -1) {
-
+			while (orientation != 0) {
+				turnLeft();
+			}
 		}
 		else if (change_y == 1) {
-
+			while (orientation != 2) {
+				turnLeft();
+			}
 		}
-
+		moveOneCell();
 
 		current_x = c.x;
 		current_y = c.y;
