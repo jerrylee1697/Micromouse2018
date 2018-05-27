@@ -25,7 +25,9 @@ vertex Stack_Top(Stack *S)
     if (S->size == 0) {
         return v;
     } 
-
+    //printf("\n%d\n",S->data[S->size-1]);
+    //Serial.print("top.y: ");
+    //Serial.println(S->data[S->size-1]);
     return S->data[S->size-1];
 }
 
@@ -98,13 +100,14 @@ void maze_wallinput(int x,int y,int i) {
       adj.x = m[x][y].v[i].x;
       adj.y = m[x][y].v[i].y;
       m[(m[x][y].v[i].x)][(m[x][y].v[i].y)].v[abs(2-i)].x=-1;m[(m[x][y].v[i].x)][(m[x][y].v[i].y)].v[abs(2-i)].y=-1;
-    } 
+    }
+     m[x][y].v[i].x=-1;m[x][y].v[i].y=-1;
+  Stack_Push(s,curr);
+  Stack_Push(s,adj);
   }
 //set x,y values of both cells to -1 in adjacency lists
 
-  m[x][y].v[i].x=-1;m[x][y].v[i].y=-1;
-  Stack_Push(s,curr);
-  Stack_Push(s,adj);
+  
 }    
 
 void updateDist() {
@@ -118,7 +121,7 @@ void updateDist() {
 
   for (i=0; i<4; i++) {
     x1 = m[top.x][top.y].v[i].x;
-    
+
     y1 = m[top.x][top.y].v[i].y;
     if(x1 < 0 || x1 > SIZ) {
       if(i == 0) {x1 = top.x;}
@@ -186,22 +189,22 @@ struct vertex floodfill(int x, int y) {
   }
   }
 
-  if(next_x - m[x][y].x == 1) {
+  if(next_x - x == 1) {
     nextCell = m[x][y].v[1];
     nextCell.x = next_x;
     nextCell.y = next_y;
   }
-  else if(next_x - m[x][y].x == -1) {
+  else if(next_x - x == -1) {
     nextCell = m[x][y].v[3];
     nextCell.x = next_x;
     nextCell.y = next_y;
   }
-  else if(next_y - m[x][y].y == 1) {
+  else if(next_y - y == 1) {
     nextCell = m[x][y].v[2];
     nextCell.x = next_x;
     nextCell.y = next_y;
   }
-  else if(next_y - m[x][y].y == -1){
+  else if(next_y - y == -1){
     nextCell = m[x][y].v[0];
     nextCell.x = next_x;
     nextCell.y = next_y;
