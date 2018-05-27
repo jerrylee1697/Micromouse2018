@@ -20,21 +20,26 @@ void setup() {
   initializePinModes();
   attachInterrupts();
   blinkLEDTimer.begin(blinkLED, 500000);
-  Serial1.begin(9600);
-  Serial1.println("Start");
+  Serial.begin(9600);
+  Serial.println("Start");
 
   useSensors = false;
   sysTickTimer.begin(sysTick, 5000);
 
   delay(1000);
   while (1) {
-    if (Receiver_L_Reading > 600) { // Right Hand rule
+    Serial.print(Receiver_L_Reading);
+    Serial.print(",");
+    Serial.println(Receiver_R_Reading);
+    
+    if (Receiver_L_Reading > 600) { // Floodfill
+      break;
+    }
+    if (Receiver_R_Reading > 600) { // Right Hand rule
       rightHand = true;
       break;
     }
-    if (Receiver_R_Reading > 600) // Random
-      break;
-    delay(5);
+    delay(40);
   }
   delay(1000);
   readSensors();
@@ -44,10 +49,13 @@ void setup() {
 }
 
 void loop() {
+  Serial.print(Receiver_L_Reading);
+  Serial.print(",");
+  Serial.println(Receiver_R_Reading);
   if (rightHand)
-    solveRightHand();
-  else
     navigate();
+  else
+    floodfill_algorithm();
 }
 
 void sysTick() {

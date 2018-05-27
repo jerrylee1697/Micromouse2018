@@ -6,10 +6,11 @@
 
 extern int nextCellState;
 extern int orientation;
+extern struct vertex c;
 void updateState();
 void navigate();
 void solveRightHand();
-void floodfill();
+void floodfill_algorithm();
 
 /*
   *********************************************************
