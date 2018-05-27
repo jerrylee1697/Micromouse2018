@@ -114,16 +114,23 @@ void updateDist() {
   //printf("HERE");
   int i = 0;
   vertex top = Stack_Top(s);
+  //printf("TEST");
   vertex min = Stack_Top(s);
   int x1, y1, min_x, min_y;
   min_x = min.x;
   min_y = min.y;
+  vertex push;
+
+  //printf("ONE");
+  //printf("\n(%d,%d)\n",min.x,min.y);
 
   for (i=0; i<4; i++) {
-    x1 = m[top.x][top.y].v[i].x;
 
+    x1 = m[top.x][top.y].v[i].x;
+    //printf("\n%d\n",top.y);
     y1 = m[top.x][top.y].v[i].y;
-    if(x1 < 0 || x1 > SIZ) {
+    //printf("\n(%d,%d)\n",x1,y1);
+    /*if(x1 < 0 || x1 > SIZ) {
       if(i == 0) {x1 = top.x;}
       if(i == 1) {x1 = top.x + 1;}
       if(i == 2) {x1 = top.x;}
@@ -134,19 +141,28 @@ void updateDist() {
       if(i == 1) {y1 = top.y;}
       if(i == 2) {y1 = top.y + 1;}
       if(i == 3) {y1 = top.y;}
+    }*/
+    if(x1 >= 0 && y1 >= 0 && x1 < SIZ && y1 < SIZ) {
+     // printf("HERE");
+      if(m[x1][y1].dist < m[min.x][min.y].dist) {
+       
+        min_x = x1;
+        min_y = y1;
+      }
     }
-    if(m[x1][y1].dist < m[min.x][min.y].dist && x1 >= 0 && y1 >= 0 && x1 < SIZ && y1 < SIZ
-      && x1 >= 0 && y1 >= 0 && x1 < SIZ && y1 < SIZ) {
-      min_x = x1;
-      min_y = y1;
-    }
-  }
+}
 
   if(m[top.x][top.y].dist != m[min_x][min_y].dist + 1 && m[top.x][top.y].dist != 0) {
       m[top.x][top.y].dist = m[min_x][min_y].dist + 1;
       Stack_Pop(s);
       for(i = 0; i < 4; ++i) {
-        Stack_Push(s, m[top.x][top.y].v[i]);
+        if(i==0) {push.x = top.x; push.y = top.y-1;}
+        else if(i==1) {push.x = top.x+1; push.y = top.y;}
+        else if(i==2) {push.x = top.x; push.y = top.y+1;}
+        else if(i==3) {push.x = top.x-1; push.y = top.y;}
+        if(push.x >= 0 && push.y >= 0 && push.x < SIZ && push.y < SIZ) {
+          Stack_Push(s, push);
+        }
       }
     } else {Stack_Pop(s);}
 }
