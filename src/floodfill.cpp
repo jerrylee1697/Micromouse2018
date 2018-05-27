@@ -1,7 +1,7 @@
 //for this version DON'T use the test maze. The wall values are hard coded 
 //using maze_wallinput so just run the whole thing.
 
-#include <cmath>
+//#include <cmath>
 #include<stdlib.h>
 #include "../inc/floodfill.h"
 
@@ -118,6 +118,7 @@ void updateDist() {
 
   for (i=0; i<4; i++) {
     x1 = m[top.x][top.y].v[i].x;
+    
     y1 = m[top.x][top.y].v[i].y;
     if(x1 < 0 || x1 > SIZ) {
       if(i == 0) {x1 = top.x;}
